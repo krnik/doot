@@ -48,7 +48,7 @@ call plug#begin(s:dirs.plug)
 Plug 'tpope/vim-sleuth'
 Plug 'takac/vim-hardtime'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf', { 'do': './install' }
 Plug 'junegunn/fzf.vim'
 
 Plug 'morhetz/gruvbox'
@@ -58,10 +58,8 @@ Plug 'cespare/vim-toml'
 Plug 'jparise/vim-graphql'
 
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'neoclide/coc-json', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'weirongxu/coc-explorer', { 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/coc-tsserver', { 'do': 'yarn install --frozen-lockfile'}
-Plug 'neoclide/coc-css', { 'do': 'yarn install --frozen-lockfile'}
 Plug 'fannheyward/coc-rust-analyzer', { 'do': 'yarn install --frozen-lockfile'}
 
 call plug#end()
@@ -121,6 +119,14 @@ nnoremap <Space> <Nop>
 vnoremap <Space> <Nop>
 let mapleader= " "
 
+" has('wsl') does not work
+if system('uname -r') =~ 'microsoft'
+  augroup Yank
+    autocmd!
+    autocmd TextYankPost \* :call system('clip.exe ',@")
+  augroup END
+endif
+
 nnoremap <Leader>y "*Y
 vnoremap <Leader>y "*y
 nnoremap <Leader>p "*p
@@ -143,6 +149,7 @@ nnoremap <Leader>e :CocCommand explorer<CR>
 nnoremap <Leader>vi :edit $MYVIMRC<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 nnoremap <Leader>vw :set list!<CR>
+nnoremap <Leader>vs :source $MYVIMRC<CR>
 nnoremap <Leader>vb :call ToggleBackground()<CR>
 
 nnoremap <Leader>ff :FZF<CR>
@@ -154,7 +161,7 @@ nnoremap <Leader>fh :Helptags<CR>
 
 "-----------------------" HARDTIME
 let g:hardtime_default_on = 1
-let g:hardtime_maxcount = 3
+let g:hardtime_maxcount = 5
 
 "-----------------------" FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files'
