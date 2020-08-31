@@ -195,3 +195,8 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 nmap <Leader>rn	<Plug>(coc-rename)
 nmap <Leader>rq <Plug>(coc-fix-current)
 nmap <Leader>rf :call CocAction('format')<CR>
+
+function! CocExplorerInited(filetype, bufnr)
+  call setbufvar(a:bufnr, '&number', 1)
+  call setbufvar(a:bufnr, '&relativenumber', 1)
+endfunction
