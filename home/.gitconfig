@@ -5,9 +5,18 @@
 	diffFilter = delta --color-only
 [delta]
 	features = side-by-side line-numbers decorations
-	whitespace-error-style = 22 reverse
-    syntax-theme = zenburn
+	commit-style = reverse blue
+	minus-style = syntax
+	minus-emph-style = reverse red
+	minus-empty-line-marker-style = syntax
+	plus-style = syntax
+	plus-emph-style = reverse cyan
+	plus-empty-line-marker-style = syntax
+	whitespace-error-style = reverse magenta
+	line-numbers-plus-style = bold cyan 
+	line-numbers-minus-style = bold red 
+	navigate = true
 [delta "decorations"]
-	commit-decoration-style = bold yellow ul
-	file-style = bold yellow ul
+	commit-decoration-style = bold normal ul
+	file-style = bold normal ul
 	file-decoration-style = none
