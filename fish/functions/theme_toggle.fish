@@ -1,8 +1,4 @@
 function theme_toggle
-    if not set -q fish_color_theme_is_dark
-        set -g fish_color_theme_is_dark 1
-    end
-
     if test $fish_color_theme_is_dark = 1
         theme_gruvbox light medium
 

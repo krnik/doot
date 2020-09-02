@@ -1,4 +1,4 @@
-fish_user_key_bindings
+set -g fish_color_theme_is_dark 1
 
 set -x XDG_CONFIG_HOME $HOME/.config
 set -x XDG_DATA_HOME $HOME/.local/share
