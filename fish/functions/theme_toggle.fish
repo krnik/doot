@@ -1,4 +1,4 @@
-function toggle_theme
+function theme_toggle
     if not set -q fish_color_theme_is_dark
         set -g fish_color_theme_is_dark 1
     end
@@ -67,3 +67,4 @@ function toggle_theme
         set -g fish_color_theme_is_dark 1
     end
 end
+
