@@ -5,16 +5,17 @@
 	diffFilter = delta --color-only
 [delta]
 	features = side-by-side line-numbers decorations
-	commit-style = reverse blue
+	commit-style = reverse brightblue
 	minus-style = syntax
-	minus-emph-style = reverse red
+	minus-emph-style = reverse brightred
 	minus-empty-line-marker-style = syntax
 	plus-style = syntax
-	plus-emph-style = reverse cyan
+	plus-emph-style = reverse brightgreen
 	plus-empty-line-marker-style = syntax
 	whitespace-error-style = reverse magenta
-	line-numbers-plus-style = bold cyan 
-	line-numbers-minus-style = bold red 
+	line-numbers-zero-style = normal
+	line-numbers-plus-style = bold reverse brightgreen 
+	line-numbers-minus-style = bold reverse brightred 
 	navigate = true
 [delta "decorations"]
 	commit-decoration-style = bold normal ul
