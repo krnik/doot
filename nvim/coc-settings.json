@@ -1,5 +1,3 @@
 {
-    "explorer.position": "right",
-    "explorer.file.showHiddenFiles": true,
-    "suggest.numberSelect": true
+        "explorer.file.showHiddenFiles": true
 }
