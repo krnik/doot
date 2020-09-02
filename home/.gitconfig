@@ -4,6 +4,7 @@
 [interactive]
 	diffFilter = delta --color-only
 [delta]
+	navigate = true
 	features = side-by-side line-numbers decorations
 	commit-style = reverse brightblue
 	minus-style = syntax
@@ -16,8 +17,6 @@
 	line-numbers-zero-style = normal
 	line-numbers-plus-style = bold reverse brightgreen 
 	line-numbers-minus-style = bold reverse brightred 
-	navigate = true
-[delta "decorations"]
 	commit-decoration-style = bold normal ul
 	file-style = bold normal ul
 	file-decoration-style = none
