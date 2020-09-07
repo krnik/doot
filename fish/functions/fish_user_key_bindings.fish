@@ -1,5 +1,5 @@
 function fish_user_key_bindings
-    fish_vi_cursor_next --force-iterm
+    fish_vi_cursor_next xterm
     fish_vi_key_bindings default
 
     for mode in insert default visual
