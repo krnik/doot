@@ -45,7 +45,7 @@ function __fish_theme_set_fish_colors -a mode
             set -g fish_color_host                  3c3836
             set -g fish_pager_color_completion      3c3836
             set -g fish_color_comment               928374
-            set -g fish_color_autosuggestion        504945
+            set -g fish_color_autosuggestion        928374
             set -g fish_color_valid_path            --underline
             set -g fish_pager_color_prefix          3c3836 --bold --underline
             set -g fish_color_selection             3c3836 --bold --background=928374
@@ -80,7 +80,7 @@ function __fish_theme_set_fish_colors -a mode
             set -g fish_color_host                  ebdbb2
             set -g fish_pager_color_completion      ebdbb2
             set -g fish_color_comment               928374
-            set -g fish_color_autosuggestion        d5c4a1
+            set -g fish_color_autosuggestion        928374
             set -g fish_color_valid_path            --underline
             set -g fish_pager_color_prefix          ebdbb2 --bold --underline
             set -g fish_color_selection             ebdbb2 --bold --background=928374
