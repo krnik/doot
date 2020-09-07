@@ -13,6 +13,10 @@ else
     set -x BAT_THEME gruvbox
 end
 
+if set -q WT_SESSION
+    set -x COLORTERM truecolor
+end
+
 set -x XDG_CONFIG_HOME $HOME/.config
 set -x XDG_DATA_HOME $HOME/.local/share
 set -x XDG_CACHE_HOME $HOME/.local/cache
