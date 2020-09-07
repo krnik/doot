@@ -57,10 +57,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'cespare/vim-toml'
 Plug 'jparise/vim-graphql'
 
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'weirongxu/coc-explorer', { 'do': 'yarn install --frozen-lockfile' }
-Plug 'neoclide/coc-tsserver', { 'do': 'yarn install --frozen-lockfile'}
-Plug 'fannheyward/coc-rust-analyzer', { 'do': 'yarn install --frozen-lockfile'}
+Plug 'preservim/nerdtree'
 
 call plug#end()
 
@@ -143,9 +140,8 @@ cnoremap <M-k> <Up>
 cnoremap <M-l> <Right>
 cnoremap <M-S-l> <S-Right>
 
-nnoremap <Leader>q :close<CR>
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>e :CocCommand explorer<CR>
+nnoremap <Leader>e :NERDTreeToggle<CR>
 nnoremap <Leader>vi :edit $MYVIMRC<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 nnoremap <Leader>vw :set list!<CR>
@@ -200,3 +196,10 @@ function! CocExplorerInited(filetype, bufnr)
   call setbufvar(a:bufnr, '&number', 1)
   call setbufvar(a:bufnr, '&relativenumber', 1)
 endfunction
+
+"-----------------------" NERDTree
+let g:NERDTreeShowLineNumbers = 1
+let g:NERDTreeWinPos = 'right'
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+autocmd FileType nerdtree setlocal relativenumber
