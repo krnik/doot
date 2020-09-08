@@ -1,5 +1,5 @@
 "-----------------------" DIR SETUP
-function! s:setup_directories ()
+function s:setup_directories ()
   let root = getenv('XDG_CONFIG_HOME')
 
   if root == v:null
@@ -23,7 +23,15 @@ endfunction
 let s:dirs = s:setup_directories()
 
 "-----------------------" UTILS
-function! ToggleBackground ()
+function ToggleFoldcolumn()
+  if &l:foldcolumn == 0
+    setl foldcolumn=4
+  else
+    setl foldcolumn=0
+  endif
+endfunction
+
+function ToggleBackground ()
   if &background == 'dark'
     set background=light
   else
@@ -48,16 +56,18 @@ call plug#begin(s:dirs.plug)
 Plug 'tpope/vim-sleuth'
 Plug 'takac/vim-hardtime'
 Plug 'editorconfig/editorconfig-vim'
-Plug 'junegunn/fzf', { 'do': './install' }
+Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'dag/vim-fish'
+Plug 'justinmk/vim-dirvish'
 
 Plug 'morhetz/gruvbox'
 
 Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 Plug 'cespare/vim-toml'
 Plug 'jparise/vim-graphql'
-
-Plug 'preservim/nerdtree'
 
 call plug#end()
 
@@ -95,6 +105,7 @@ set shortmess+=c
 
 set foldenable
 set foldmethod=manual
+set foldopen=percent
 set foldlevelstart=8
 
 set incsearch
@@ -141,12 +152,13 @@ cnoremap <M-l> <Right>
 cnoremap <M-S-l> <S-Right>
 
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>e :NERDTreeToggle<CR>
+nnoremap <Leader>e :vsplit\|Dirvish<CR>
 nnoremap <Leader>vi :edit $MYVIMRC<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 nnoremap <Leader>vw :set list!<CR>
 nnoremap <Leader>vs :source $MYVIMRC<CR>
 nnoremap <Leader>vb :call ToggleBackground()<CR>
+nnoremap <Leader>vf :call ToggleFoldcolumn()<CR>
 
 nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fb :Buffer<CR>
@@ -161,45 +173,3 @@ let g:hardtime_maxcount = 5
 
 "-----------------------" FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files'
-
-"-----------------------" COC:COMPLETION
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
-
-inoremap <silent><expr> <C-Space> coc#refresh()
-
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-nmap <Leader>rn	<Plug>(coc-rename)
-nmap <Leader>rq <Plug>(coc-fix-current)
-nmap <Leader>rf :call CocAction('format')<CR>
-
-function! CocExplorerInited(filetype, bufnr)
-  call setbufvar(a:bufnr, '&number', 1)
-  call setbufvar(a:bufnr, '&relativenumber', 1)
-endfunction
-
-"-----------------------" NERDTree
-let g:NERDTreeShowLineNumbers = 1
-let g:NERDTreeWinPos = 'right'
-let g:NERDTreeShowHidden = 1
-let g:NERDTreeMinimalUI = 1
-autocmd FileType nerdtree setlocal relativenumber
