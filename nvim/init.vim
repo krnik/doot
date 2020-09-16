@@ -173,7 +173,12 @@ let $FZF_DEFAULT_COMMAND = 'rg --files'
 "-----------------------"
 lua require'nvim_lsp'.tsserver.setup{}
 lua require'nvim_lsp'.sumneko_lua.setup{}
-lua require'init'
+lua require'nvim-treesitter.configs'.setup{ highlight = { enable = true } }
+" lua require'init'
+
+nnoremap <Leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <Leader>lk <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <Leader>lr <cmd>lua vim.lsp.buf.references()<CR>
 
 "-----------------------"
 function RenameFile ()
