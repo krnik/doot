@@ -1,42 +1,42 @@
 "-----------------------" DIR SETUP
 function s:setup_directories ()
-  let root = getenv('XDG_CONFIG_HOME')
+    let root = getenv('XDG_CONFIG_HOME')
 
-  if root == v:null
-    echo 'No XDG_CONFIG_HOME env variable set!'
-    let root = getenv('HOME')
-  endif
-        
-  let root .= '/nvim'
-
-  let dirs = { 'root ': root , 'backup': root . '/backup', 'undo': root . '/undo', 'swap': root . '/swap', 'plug': root . '/plug-data' }
-
-  for dir in values(dirs)
-    if !isdirectory(dir)
-      call mkdir(dir)
+    if root == v:null
+        echo 'No XDG_CONFIG_HOME env variable set!'
+        let root = getenv('HOME')
     endif
-  endfor
 
-  return dirs
+    let root .= '/nvim'
+
+    let dirs = { 'root ': root , 'backup': root . '/backup', 'undo': root . '/undo', 'swap': root . '/swap', 'plug': root . '/plug-data' }
+
+    for dir in values(dirs)
+        if !isdirectory(dir)
+            call mkdir(dir)
+        endif
+    endfor
+
+    return dirs
 endfunction
 
 let s:dirs = s:setup_directories()
 
 "-----------------------" UTILS
 function ToggleFoldcolumn()
-  if &l:foldcolumn == 0
-    setl foldcolumn=4
-  else
-    setl foldcolumn=0
-  endif
+    if &l:foldcolumn == 0
+        setl foldcolumn=4
+    else
+        setl foldcolumn=0
+    endif
 endfunction
 
 function ToggleBackground ()
-  if &background == 'dark'
-    set background=light
-  else
-    set background=dark
-  endif
+    if &background == 'dark'
+        set background=light
+    else
+        set background=dark
+    endif
 endfunction
 
 "-----------------------" BACKING UP
@@ -53,20 +53,24 @@ filetype plugin indent on
 "-----------------------" PLUGINS
 call plug#begin(s:dirs.plug)
 
+"-----------------------"
 Plug 'tpope/vim-sleuth'
-Plug 'takac/vim-hardtime'
 Plug 'editorconfig/editorconfig-vim'
+
+"-----------------------"
 Plug 'junegunn/fzf', { 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'dag/vim-fish'
 Plug 'justinmk/vim-dirvish'
 
 Plug 'morhetz/gruvbox'
 
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'cespare/vim-toml'
+"-----------------------"
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter'
+
+"-----------------------"
+Plug 'dag/vim-fish'
 Plug 'jparise/vim-graphql'
 
 call plug#end()
@@ -127,14 +131,6 @@ nnoremap <Space> <Nop>
 vnoremap <Space> <Nop>
 let mapleader= " "
 
-" has('wsl') does not work
-if system('uname -r') =~ 'microsoft'
-  augroup Yank
-    autocmd!
-    autocmd TextYankPost \* :call system('clip.exe ',@")
-  augroup END
-endif
-
 nnoremap <Leader>y "*Y
 vnoremap <Leader>y "*y
 nnoremap <Leader>p "*p
@@ -152,7 +148,7 @@ cnoremap <M-l> <Right>
 cnoremap <M-S-l> <S-Right>
 
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>e :vsplit\|Dirvish<CR>
+nnoremap <Leader>e :Dirvish %<CR>
 nnoremap <Leader>vi :edit $MYVIMRC<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 nnoremap <Leader>vw :set list!<CR>
@@ -173,3 +169,30 @@ let g:hardtime_maxcount = 5
 
 "-----------------------" FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files'
+
+"-----------------------"
+lua require'nvim_lsp'.tsserver.setup{}
+lua require'nvim_lsp'.sumneko_lua.setup{}
+lua require'init'
+
+"-----------------------"
+function RenameFile ()
+    if !isdirectory(expand('%'))
+        return
+    endif
+
+    let path = getline('.')
+    let new = input('Rename to: ', path)
+
+    if (path == new) || (new == '')
+        return
+    endif
+
+    call rename(path, new)
+    execute 'Dirvish %'
+endfunction
+
+augroup dirvish_config
+    autocmd FileType dirvish nnoremap <buffer> r :call RenameFile()<CR>
+augroup END
+
