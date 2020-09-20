@@ -172,9 +172,9 @@ let $FZF_DEFAULT_COMMAND = 'rg --files'
 
 "-----------------------"
 lua require'nvim_lsp'.tsserver.setup{}
+lua require'nvim_lsp'.rust_analyzer.setup{}
 lua require'nvim_lsp'.sumneko_lua.setup{}
 lua require'nvim-treesitter.configs'.setup{ highlight = { enable = true } }
-" lua require'init'
 
 nnoremap <Leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <Leader>lk <cmd>lua vim.lsp.buf.hover()<CR>
@@ -197,7 +197,36 @@ function RenameFile ()
     execute 'Dirvish %'
 endfunction
 
+function CreatePath ()
+    if !isdirectory(expand('%'))
+        return
+    endif
+
+    let path = input('New child: ', expand('%'))
+
+    if path == ''
+        return
+    endif
+
+    let last = path[len(path) - 1]
+
+    if last == '/'
+        silent execute '! mkdir -p ' . path
+    else
+        silent execute '! touch ' . path    
+    endif
+
+    execute 'Dirvish %'
+endfunction
+
+function RemovePath()
+    silent execute '! rm -rf ' . getline('.')
+    execute 'Dirvish %'
+endfunction
+
 augroup dirvish_config
-    autocmd FileType dirvish nnoremap <buffer> r :call RenameFile()<CR>
+    autocmd FileType dirvish nnoremap <buffer> <Leader>dr <cmd>call RenameFile()<CR>
+    autocmd Filetype dirvish nnoremap <buffer> <Leader>da <cmd>call CreatePath()<CR>
+    autocmd FileType dirvish nnoremap <buffer> <Leader>dd <cmd>call RemovePath()<CR>
 augroup END
 
