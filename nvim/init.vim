@@ -22,23 +22,6 @@ endfunction
 
 let s:dirs = s:setup_directories()
 
-"-----------------------" UTILS
-function ToggleFoldcolumn()
-    if &l:foldcolumn == 0
-        setl foldcolumn=4
-    else
-        setl foldcolumn=0
-    endif
-endfunction
-
-function ToggleBackground ()
-    if &background == 'dark'
-        set background=light
-    else
-        set background=dark
-    endif
-endfunction
-
 "-----------------------" BACKING UP
 set backup
 set undofile
@@ -153,8 +136,8 @@ nnoremap <Leader>vi :edit $MYVIMRC<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 nnoremap <Leader>vw :set list!<CR>
 nnoremap <Leader>vs :source $MYVIMRC<CR>
-nnoremap <Leader>vb :call ToggleBackground()<CR>
-nnoremap <Leader>vf :call ToggleFoldcolumn()<CR>
+nnoremap <Leader>vb :lua init.options.toggle_background()<CR>
+nnoremap <Leader>vf :lua init.options.toggle_foldcolumn()<CR>
 
 nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fb :Buffer<CR>
@@ -175,10 +158,12 @@ lua require'nvim_lsp'.tsserver.setup{}
 lua require'nvim_lsp'.rust_analyzer.setup{}
 lua require'nvim_lsp'.sumneko_lua.setup{}
 lua require'nvim-treesitter.configs'.setup{ highlight = { enable = true } }
+lua init = require('init')
 
 nnoremap <Leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <Leader>lk <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <Leader>lr <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <Leader>lf <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 "-----------------------"
 function RenameFile ()
@@ -188,7 +173,6 @@ function RenameFile ()
 
     let path = getline('.')
     let new = input('Rename to: ', path)
-
     if (path == new) || (new == '')
         return
     endif
@@ -203,13 +187,11 @@ function CreatePath ()
     endif
 
     let path = input('New child: ', expand('%'))
-
     if path == ''
         return
     endif
 
     let last = path[len(path) - 1]
-
     if last == '/'
         silent execute '! mkdir -p ' . path
     else
