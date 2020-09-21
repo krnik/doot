@@ -1,40 +1,7 @@
-"-----------------------" DIR SETUP
-function s:setup_directories ()
-    let root = getenv('XDG_CONFIG_HOME')
-
-    if root == v:null
-        echo 'No XDG_CONFIG_HOME env variable set!'
-        let root = getenv('HOME')
-    endif
-
-    let root .= '/nvim'
-
-    let dirs = { 'root ': root , 'backup': root . '/backup', 'undo': root . '/undo', 'swap': root . '/swap', 'plug': root . '/plug-data' }
-
-    for dir in values(dirs)
-        if !isdirectory(dir)
-            call mkdir(dir)
-        endif
-    endfor
-
-    return dirs
-endfunction
-
-let s:dirs = s:setup_directories()
-
-"-----------------------" BACKING UP
-set backup
-set undofile
-set undolevels=500
-let &backupdir=s:dirs.backup
-let &directory=s:dirs.swap
-let &undodir=s:dirs.undo
-set pyx=3
-
 filetype plugin indent on
 
-"-----------------------" PLUGINS
-call plug#begin(s:dirs.plug)
+let s:plug_dir = getenv('XDG_DATA_HOME') . '/nvim/vim-plug-data'
+call plug#begin(s:plug_dir)
 
 "-----------------------"
 Plug 'tpope/vim-sleuth'
@@ -59,60 +26,27 @@ Plug 'jparise/vim-graphql'
 call plug#end()
 
 "-----------------------" USER CONFIG
+lua init = require('init')
+
 syntax enable
-set updatetime=500
-set timeoutlen=600
 colorscheme gruvbox
 
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set expandtab
-set number
-set relativenumber
-set showcmd
-set nocursorline
-set nocursorcolumn
-set scrolloff=10
-set hidden
-set termguicolors
-set splitright
-set splitbelow
-set showmode
-set showtabline=0
-set signcolumn=yes
-set laststatus=2
-set cmdheight=1
-set wildmenu
-set wildmode=full
-set lazyredraw
-set showmatch
-set matchtime=3
-set shortmess+=c
-
-set foldenable
-set foldmethod=manual
-set foldopen=percent
-set foldlevelstart=8
-
-set incsearch
-set hlsearch
-set ignorecase
-set smartcase
-
-set statusline=
-set statusline+=%-5([#%n]\ [%c%V:%l\ %L]%)%<
-set statusline+=\ %f%=
-set statusline+=%m%r%h%w%y
-set statusline+=%#StatusLineNC#
-
-set listchars=eol:$,tab:>·<,space:·
-set nolist
-
 "-----------------------" MAPPINGS
+let mapleader= " "
+
 nnoremap <Space> <Nop>
 vnoremap <Space> <Nop>
-let mapleader= " "
+
+cnoremap <M-h> <Left>
+cnoremap <M-S-h> <S-Left>
+cnoremap <M-l> <Right>
+cnoremap <M-S-l> <S-Right>
+cnoremap <M-j> <Down>
+cnoremap <M-k> <Up>
+
+nnoremap <Leader>w :w<CR>
+nnoremap <Leader>e :Dirvish %<CR>
+nnoremap <Leader>x :let @/ = ''<CR>
 
 nnoremap <Leader>y "*Y
 vnoremap <Leader>y "*y
@@ -120,24 +54,11 @@ nnoremap <Leader>p "*p
 vnoremap <Leader>p "*p
 nnoremap <Leader>P "*P
 vnoremap <Leader>P "*P
-inoremap <C-l> <Del>
-cnoremap <C-l> <Del>
 
-cnoremap <M-h> <Left>
-cnoremap <M-S-h> <S-Left>
-cnoremap <M-j> <Down>
-cnoremap <M-k> <Up>
-cnoremap <M-l> <Right>
-cnoremap <M-S-l> <S-Right>
-
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>e :Dirvish %<CR>
 nnoremap <Leader>vi :edit $MYVIMRC<CR>
-nnoremap <Leader>x :let @/ = ''<CR>
 nnoremap <Leader>vw :set list!<CR>
 nnoremap <Leader>vs :source $MYVIMRC<CR>
-nnoremap <Leader>vb :lua init.options.toggle_background()<CR>
-nnoremap <Leader>vf :lua init.options.toggle_foldcolumn()<CR>
+nnoremap <Leader>vb :lua init.toggle.background()<CR>
 
 nnoremap <Leader>ff :FZF<CR>
 nnoremap <Leader>fb :Buffer<CR>
@@ -146,24 +67,15 @@ nnoremap <Leader>fl :Lines<CR>
 nnoremap <Leader>fg :BCommits<CR>
 nnoremap <Leader>fh :Helptags<CR>
 
-"-----------------------" HARDTIME
-let g:hardtime_default_on = 1
-let g:hardtime_maxcount = 5
+nnoremap <Leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <Leader>lk <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <Leader>lf <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 "-----------------------" FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files'
 
 "-----------------------"
-lua require'nvim_lsp'.tsserver.setup{}
-lua require'nvim_lsp'.rust_analyzer.setup{}
-lua require'nvim_lsp'.sumneko_lua.setup{}
-lua require'nvim-treesitter.configs'.setup{ highlight = { enable = true } }
-lua init = require('init')
-
-nnoremap <Leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <Leader>lk <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <Leader>lf <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 "-----------------------"
 function RenameFile ()
@@ -202,8 +114,10 @@ function CreatePath ()
 endfunction
 
 function RemovePath()
-    silent execute '! rm -rf ' . getline('.')
-    execute 'Dirvish %'
+    if input('Remove [' . getline('.') . '] y/n?') == 'y'
+        silent execute '! rm -rf ' . getline('.')
+        execute 'Dirvish %'
+    endif
 endfunction
 
 augroup dirvish_config

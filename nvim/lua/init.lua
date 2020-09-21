@@ -1,20 +1,25 @@
-local options = {
-    toggle_foldcolumn = function ()
-        if vim.wo.foldcolumn == '0' then
-            vim.wo.foldcolumn = '4'
-        else
-            vim.wo.foldcolumn = '0'
-        end
-    end,
-    toggle_background = function ()
-        if vim.o.background == 'dark' then
-            vim.o.background = 'light'
-        else
-            vim.o.background = 'dark'
-        end
+local config = require('config')
+
+require('nvim_lsp').tsserver.setup({})
+require('nvim_lsp').rust_analyzer.setup({})
+require('nvim_lsp').sumneko_lua.setup({
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+})
+
+require('nvim-treesitter.configs').setup({ highlight = { enable = true } })
+
+local toggle = {
+    background = function ()
+        config.global.toggle('background', 'dark', 'light')
     end,
 }
 
 return {
-    options = options,
+    toggle = toggle,
 }
