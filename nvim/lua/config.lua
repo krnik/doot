@@ -50,6 +50,7 @@ config.win.set('relativenumber', true)
 config.win.set('foldcolumn', 'auto:4')
 config.win.set('foldminlines', 4)
 config.win.set('foldnestmax', 4)
+config.win.set('signcolumn', 'yes')
 
 -- Buffer options
 config.buf.set('tabstop', 4)
