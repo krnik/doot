@@ -76,8 +76,6 @@ nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 let $FZF_DEFAULT_COMMAND = 'rg --files'
 
 "-----------------------"
-
-"-----------------------"
 function RenameFile ()
     if !isdirectory(expand('%'))
         return

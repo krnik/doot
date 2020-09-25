@@ -57,4 +57,10 @@ config.buf.set('tabstop', 4)
 config.buf.set('shiftwidth', 4)
 config.buf.set('expandtab', true)
 
+-- If BAT_THEME env variable is set to "gruvbox-light" then
+-- set the vim background to light.
+if os.getenv('BAT_THEME') == 'gruvbox-light' then
+    config.global.set('background', 'light')
+end
+
 return config
