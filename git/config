@@ -20,3 +20,4 @@
 	commit-decoration-style = bold normal ul
 	file-style = bold normal ul
 	file-decoration-style = none
+	file-modified-label = modified:
