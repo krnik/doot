@@ -45,7 +45,6 @@ cnoremap <M-j> <Down>
 cnoremap <M-k> <Up>
 
 nnoremap <Leader>w :w<CR>
-nnoremap <Leader>e :Dirvish %<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 
 nnoremap <Leader>y "*Y
