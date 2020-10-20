@@ -6,7 +6,7 @@
 [delta]
 	navigate = true
 	features = side-by-side line-numbers decorations
-	commit-style = reverse brightblue
+	commit-style = normal
 	minus-style = syntax
 	minus-emph-style = reverse brightred
 	minus-empty-line-marker-style = syntax
@@ -17,7 +17,7 @@
 	line-numbers-zero-style = normal
 	line-numbers-plus-style = bold reverse brightgreen 
 	line-numbers-minus-style = bold reverse brightred 
-	commit-decoration-style = bold normal ul
-	file-style = bold normal ul
+	commit-decoration-style = bold normal
+	file-style = bold normal
 	file-decoration-style = none
 	file-modified-label = modified:
