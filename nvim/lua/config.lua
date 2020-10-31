@@ -43,6 +43,7 @@ config.global.set('pyxversion', 3)
 config.global.set('undofile', true)
 config.global.set('undolevels', 100)
 config.global.set('statusline', '%-5([#%n] [%c%V:%l %L]%)%< %f%=%m%r%h%w%y%#StatusLineNC#')
+config.global.set('mouse', 'n')
 
 -- Window options
 config.win.set('number', true)

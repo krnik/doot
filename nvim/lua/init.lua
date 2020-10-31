@@ -12,7 +12,10 @@ require('nvim_lsp').sumneko_lua.setup({
     }
 })
 
-require('nvim-treesitter.configs').setup({ highlight = { enable = true } })
+require('nvim-treesitter.configs').setup({
+    highlight = { enable = true },
+    indent = { enable = true },
+})
 
 local toggle = {
     background = function ()
