@@ -1,21 +1,41 @@
 function fish_theme -a action
     switch $action
+        case 'init'
+            if set -q fish_color_theme_is_dark
+                return 1
+            end
+            switch $BAT_THEME
+                case 'gruvbox-light'
+                    __fish_theme_variables light
+                    __fish_theme_set_fish_colors light
+                case '*'
+                    __fish_theme_variables dark
+                    __fish_theme_set_fish_colors dark
+                    if test $SHLVL -eq 1
+                        theme_gruvbox dark medium
+                    end
+            end
         case 'toggle'
             if test $fish_color_theme_is_dark = 1
                 theme_gruvbox light medium
                 __fish_theme_set_fish_colors light
-
-                set -x BAT_THEME gruvbox-light
-                set -g fish_color_theme_is_dark 0
+                __fish_theme_variables light
             else
                 theme_gruvbox dark medium
                 __fish_theme_set_fish_colors dark
-
-                set -x BAT_THEME gruvbox
-                set -g fish_color_theme_is_dark 1
+                __fish_theme_variables dark
             end
-        case 'set'
-            __fish_theme_set_fish_colors $argv[2]
+    end
+end
+
+function __fish_theme_variables -a mode
+    switch $mode
+        case 'dark'
+            set -gx BAT_THEME gruvbox
+            set -g fish_color_theme_is_dark 1
+        case 'light'
+            set -gx BAT_THEME gruvbox-light
+            set -g fish_color_theme_is_dark 0
     end
 end
 

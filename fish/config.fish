@@ -1,17 +1,4 @@
-if set -q BAT_THEME
-    switch $BAT_THEME
-        case 'gruvbox'
-            fish_theme set dark
-            set -g fish_color_theme_is_dark 1
-        case 'gruvbox-light'
-            fish_theme set light
-            set -g fish_color_theme_is_dark 0
-    end
-else
-    fish_theme set dark
-    set -g fish_color_theme_is_dark 1
-    set -x BAT_THEME gruvbox
-end
+fish_theme init
 
 if set -q WT_SESSION
     set -x COLORTERM truecolor
