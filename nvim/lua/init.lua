@@ -1,28 +1,15 @@
-local config = require('config')
-
-require('nvim_lsp').tsserver.setup({})
-require('nvim_lsp').rust_analyzer.setup({})
-require('nvim_lsp').sumneko_lua.setup({
-    settings = {
-        Lua = {
-            diagnostics = {
-                globals = { 'vim' }
-            }
-        }
-    }
-})
-
+require('lsp')
 require('nvim-treesitter.configs').setup({
     highlight = { enable = true },
     indent = { enable = true },
 })
 
-local toggle = {
-    background = function ()
-        config.global.toggle('background', 'dark', 'light')
-    end,
-}
+local settings = require('settings')
 
 return {
-    toggle = toggle,
+    toggle = {
+        background = function ()
+            settings.global.toggle('background', 'dark', 'light')
+        end,
+    },
 }
