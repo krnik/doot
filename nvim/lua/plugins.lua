@@ -1,9 +1,16 @@
+local utils = require('utils')
 local packer_install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 
-if vim.fn.empty(vim.fn.glob(packer_install_path)) > 0 then
-  vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. packer_install_path)
-  vim.api.nvim_command('packadd packer.nvim')
-end
+utils.ensure_dir_exists_or_else(
+	packer_install_path,
+	function ()
+	  vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. packer_install_path)
+	  vim.api.nvim_command('packadd packer.nvim')
+	end,
+	function ()
+		return vim.fn.input('Package manager "packer" not found, do you want to install it now? y/n') == 'y'
+	end
+)
 
 local packer = require('packer')
 

@@ -1,23 +1,56 @@
-local lua_system_dir
+local utils = require('utils')
+local sumneko_root_path = vim.fn.stdpath('cache') .. '/lspconfig/lua-language-server'
 
-if vim.fn.has("mac") == 1 then
-  lua_system_dir = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  lua_system_dir = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  lua_system_dir = "Windows"
-else
-  print("Unsupported system for sumneko")
+local get_sumneko_bin_path = function ()
+	local system_directory
+
+	if vim.fn.has("mac") == 1 then
+	  system_directory = "macOS"
+	elseif vim.fn.has("unix") == 1 then
+	  system_directory = "Linux"
+	elseif vim.fn.has('win32') == 1 then
+	  system_directory = "Windows"
+	else
+	  print("Unsupported system for sumneko")
+	  return nil
+	end
+
+	return sumneko_root_path .. '/bin/' .. system_directory .. '/lua-language-server'
 end
 
--- Install the sumneko/lua-language-server inside cache/lspconfig
-local sumneko_root_path = vim.fn.stdpath('cache') .. '/lspconfig/lua-language-server'
-local sumneko_binary = sumneko_root_path .. '/bin/' .. lua_system_dir .. '/lua-language-server'
+utils.ensure_dir_exists_or_else(
+	sumneko_root_path,
+	function ()
+		local build
+		local rebuild = './3rd/luamake/luamake rebuild'
+
+		if vim.fn.has("mac") == 1 then
+			build = 'ninja -f ninja/macos.ninja'
+		elseif vim.fn.has("unix") == 1 then
+			build = 'ninja -f ninja/linux.ninja'
+		elseif vim.fn.has('win32') == 1 then
+			build = 'tools\\ninja.exe -f ninja\\msvc.ninja'
+			rebuild = '3rd\\luamake\\luamake.exe rebuild'
+		else
+		  print("Unsupported system for sumneko")
+		  return
+		end
+
+		local update_submodules = 'cd ' .. sumneko_root_path .. ' && git submodule update --init --recursive'
+		local build_lsp_server = 'cd ' .. sumneko_root_path .. '/3rd/luamake && ' .. build .. ' && cd ../../ && ' .. rebuild
+
+		vim.api.nvim_command('!git clone https://github.com/sumneko/lua-language-server ' .. sumneko_root_path)
+		vim.api.nvim_command('!' .. update_submodules .. ' && ' .. build_lsp_server)
+	end,
+	function ()
+		return vim.fn.input('Sumneko Lua server not found, do you wan to install it now? y/n') == 'y'
+	end
+)
 
 require('lspconfig').tsserver.setup({})
 require('lspconfig').rust_analyzer.setup({})
 require('lspconfig').sumneko_lua.setup({
-    cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+    cmd = { get_sumneko_bin_path(), '-E', sumneko_root_path .. '/main.lua' },
     settings = {
         Lua = {
             runtime = {
