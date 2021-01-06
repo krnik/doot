@@ -32,11 +32,18 @@ nnoremap <Leader>vs :source $MYVIMRC<CR>
 nnoremap <Leader>vb :lua init.toggle.background()<CR>
 
 nnoremap <Leader>ff :FZF<CR>
-nnoremap <Leader>fb :Buffer<CR>
+nnoremap <Leader>fd :GFiles<CR>
+nnoremap <Leader>fs :GFiles?<CR>
+nnoremap <Leader>fb :Buffers<CR>
 nnoremap <Leader>fr :Rg<CR>
 nnoremap <Leader>fl :Lines<CR>
-nnoremap <Leader>fg :BCommits<CR>
+nnoremap <Leader>f; :History:<CR>
+nnoremap <Leader>f: :Commands<CR>
+nnoremap <Leader>fc :Commits<CR>
+nnoremap <Leader>fv :BCommits<CR>
 nnoremap <Leader>fh :Helptags<CR>
+nnoremap <Leader>fm :Maps<CR>
+nnoremap <Leader>f' :Marks<CR>
 
 nnoremap <Leader>ld <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <Leader>lk <cmd>lua vim.lsp.buf.hover()<CR>
@@ -44,5 +51,5 @@ nnoremap <Leader>lf <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 "-----------------------" FZF
-let $FZF_DEFAULT_COMMAND = 'rg --files'
+let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-dot'
 
