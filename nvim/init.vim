@@ -1,34 +1,6 @@
-filetype plugin indent on
-
-let s:plug_dir = getenv('XDG_DATA_HOME') . '/nvim/vim-plug-data'
-call plug#begin(s:plug_dir)
-
-"-----------------------"
-Plug 'tpope/vim-sleuth'
-Plug 'editorconfig/editorconfig-vim'
-
-"-----------------------"
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'justinmk/vim-dirvish'
-
-Plug 'morhetz/gruvbox'
-
-"-----------------------"
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-treesitter/nvim-treesitter'
-
-"-----------------------"
-Plug 'dag/vim-fish'
-Plug 'jparise/vim-graphql'
-
-call plug#end()
-
 "-----------------------" USER CONFIG
+filetype plugin indent on
 lua init = require('init')
-
-syntax enable
 colorscheme gruvbox
 
 "-----------------------" MAPPINGS
