@@ -1,3 +1,4 @@
+local settings = require('settings')
 require('plugins')
 require('lsp')
 require('nvim-treesitter.configs').setup({
@@ -5,12 +6,10 @@ require('nvim-treesitter.configs').setup({
     indent = { enable = true },
 })
 
-local settings = require('settings')
-
 return {
     toggle = {
         background = function ()
-            settings.global.toggle('background', 'dark', 'light')
+            settings.toggle('o', 'background', 'dark', 'light')
         end,
     },
 }

@@ -51,5 +51,4 @@ nnoremap <Leader>lf <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 "-----------------------" FZF
-let $FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-dot'
-
+let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
