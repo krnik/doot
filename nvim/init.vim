@@ -67,6 +67,7 @@ set timeoutlen=600
 set pyxversion=3
 set undofile
 set undolevels=100
+set smartcase
 set statusline=%-5([#%n]\ [%c%V:%l\ %L]%)%<\ %f%=%m%r%h%w%y%#StatusLineNC#
 set mouse=n
 
