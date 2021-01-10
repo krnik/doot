@@ -47,9 +47,11 @@ utils.ensure_dir_exists_or_else(
     end
 )
 
-require('lspconfig').tsserver.setup({})
-require('lspconfig').rust_analyzer.setup({})
-require('lspconfig').sumneko_lua.setup({
+local lsp = require('lspconfig')
+
+lsp.tsserver.setup({})
+lsp.rust_analyzer.setup({})
+lsp.sumneko_lua.setup({
     cmd = { get_sumneko_bin_path(), '-E', sumneko_root_path .. '/main.lua' },
     settings = {
         Lua = {
