@@ -16,6 +16,8 @@ cnoremap <M-S-l> <S-Right>
 cnoremap <M-j> <Down>
 cnoremap <M-k> <Up>
 
+nnoremap <C-K> <C-^>
+
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>x :let @/ = ''<CR>
 
