@@ -1,3 +1,4 @@
+local settings = require('settings')
 require('plugins')
 require('lsp')
 require('nvim-treesitter.configs').setup({
@@ -5,18 +6,10 @@ require('nvim-treesitter.configs').setup({
     indent = { enable = true },
 })
 
-local toggle_config = function (scope, name, left, right)
-	if vim[scope][name] == left then
-	    vim[scope][name] = right
-	else
-	    vim[scope][name] = left
-	end
-end
-
 return {
     toggle = {
         background = function ()
-            toggle_config('o', 'background', 'dark', 'light')
+            settings.toggle('o', 'background', 'dark', 'light')
         end,
     },
 }

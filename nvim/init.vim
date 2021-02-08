@@ -54,36 +54,3 @@ nnoremap <Leader>lr <cmd>lua vim.lsp.buf.rename()<CR>
 
 "-----------------------" FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files --hidden'
-
-set hidden
-set showmode
-set splitbelow
-set splitright
-set scrolloff=10
-set termguicolors
-set laststatus=2
-set lazyredraw
-set ignorecase
-set listchars=eol:$,tab:>-<,space:·
-set timeoutlen=600
-set pyxversion=3
-set undofile
-set undolevels=100
-set smartcase
-set statusline=%-5([#%n]\ [%c%V:%l\ %L]%)%<\ %f%=%m%r%h%w%y%#StatusLineNC#
-set mouse=n
-
-set number
-set relativenumber
-set foldcolumn=auto:4
-set foldminlines=4
-set foldnestmax=4
-set signcolumn=yes
-
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-if $BAT_THEME == 'gruvbox-light'
-    set background=light
-endif
