@@ -23,7 +23,7 @@ packer.startup(function ()
     use 'junegunn/fzf.vim'
     use 'tpope/vim-fugitive'
     use 'justinmk/vim-dirvish'
-    use 'morhetz/gruvbox'
+    use 'gruvbox-community/gruvbox'
     use 'neovim/nvim-lspconfig'
     use 'nvim-treesitter/nvim-treesitter'
     use 'dag/vim-fish'
