@@ -21,3 +21,6 @@
 	file-style = bold normal
 	file-decoration-style = none
 	file-modified-label = modified:
+[merge]
+    conflictStyle = diff3
+    tool = vimdiff
