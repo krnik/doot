@@ -1,5 +1,5 @@
 function fish_user_key_bindings
-    set -U fish_vi_force_cursor xterm
+    set -U fish_vi_force_cursor force_vi_cursor
     fish_vi_key_bindings default
 
     for mode in insert default visual
