@@ -1,8 +1,9 @@
 function fish_user_key_bindings
-    fish_vi_cursor_next xterm
+    set -U fish_vi_force_cursor xterm
     fish_vi_key_bindings default
 
     for mode in insert default visual
+        # Rebind <C-y> to forward char (accept completion).
         # fish-shell/share/functions/__fish_shared_key_bindings.fish cy yank
         bind -M $mode -e \cy
         bind -M $mode \cy forward-char
